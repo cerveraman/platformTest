@@ -16,12 +16,11 @@ resource "aws_subnet" "public_subnet" {
 resource "aws_subnet" "private_subnet" {
     vpc_id = aws_vpc.main_vpc.id
     cidr_block = cidrsubnet(var.vpc_cidr, 1, 1)
-    map_public_ip_on_launch = true
+    map_public_ip_on_launch = false
 }
 
 resource "aws_network_interface" "public_interface" {
   subnet_id   = aws_subnet.public_subnet.id
-  #private_ips = ["192.168.1.2"]
   tags = {
     Name = "public_network_interface"
   }
@@ -39,15 +38,22 @@ resource "aws_internet_gateway" "internet_gateway" {
     Name = "internet_gateway"
   }
 }
-
-
 resource "aws_route" "default_route" {
   route_table_id = aws_route_table.public_route_table.id
   destination_cidr_block = aws_subnet.public_subnet.cidr_block
   gateway_id = aws_internet_gateway.internet_gateway.id
 }
 
-resource "aws_route_table_association" "public_association" {
-  subnet_id = aws_subnet.public_subnet.id
-  route_table_id = aws_route_table.public_route_table.id
+resource "aws_vpc_endpoint" "dynamodb" {
+  vpc_id       = aws_vpc.main_vpc.id
+  service_name = "com.amazonaws.us-west-1.dynamodb"
+
+  tags = {
+    Environment = "test"
+  }
 }
+#PLUGGIN ERROR, NOT FIXED
+#resource "aws_route_table_association" "public" {
+#  subnet_id      = aws_subnet.public_subnet.id
+#  route_table_id = aws_route_table.public_route_table.id
+#}
