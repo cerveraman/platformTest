@@ -21,7 +21,7 @@ resource "aws_subnet" "private_subnet" {
 
 resource "aws_network_interface" "public_interface" {
   subnet_id   = aws_subnet.public_subnet.id
-
+  private_ips = ["192.168.1.2"]
   tags = {
     Name = "public_network_interface"
   }
@@ -39,16 +39,17 @@ resource "aws_route_table" "public_route_table" {
     Name = "public_route"
   }
 }
- resource "aws_route" "default_route" {
-   route_table_id = aws_route_table.public_route_table.id
-   destination_cidr_block = "0.0.0.0/0" #accessible from any IP addres - NOT RECOMENDED
-   gateway_id = aws_internet_gateway.internet_gateway.id
- }
-
 resource "aws_internet_gateway" "internet_gateway" {
   vpc_id = aws_vpc.main_vpc.id
   tags = {
     Name = "internet_gateway"
   }
 }
+ resource "aws_route" "default_route" {
+   route_table_id = aws_route_table.public_route_table.id
+   destination_cidr_block = aws_subnet.public_subnet.cidr_block
+   gateway_id = aws_internet_gateway.internet_gateway.id
+ }
+
+
 
