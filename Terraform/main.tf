@@ -10,5 +10,4 @@ module "ec2" {
 }
 module "dynamodb" {
   source              = "./dynamodb"
-  private_interface_id = module.network.private_interface_id
 }
