@@ -1,5 +1,5 @@
 locals {
-  cidr = "192.168.1.0/24"
+  cidr = "10.123.0.0/24"
 }
 locals {
   ami = "ami-005e54dee72cc1d00" # us-west-2

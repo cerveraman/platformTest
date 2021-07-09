@@ -43,17 +43,17 @@ resource "aws_route" "default_route" {
   destination_cidr_block = aws_subnet.public_subnet.cidr_block
   gateway_id = aws_internet_gateway.internet_gateway.id
 }
-
+#PLUGGIN ERROR, NOT FIXED
+#resource "aws_route_table_association" "public" {
+# subnet_id      = aws_subnet.public_subnet.id
+#  route_table_id = aws_route_table.public_route_table.id
+#}
 resource "aws_vpc_endpoint" "dynamodb" {
   vpc_id = aws_vpc.main_vpc.id
   service_name = local.service_name
-
+  subnet_ids = [aws_subnet.private_subnet.id]
   tags = {
     Environment = "test"
   }
 }
-#PLUGGIN ERROR, NOT FIXED
-#resource "aws_route_table_association" "public" {
-#  subnet_id      = aws_subnet.public_subnet.id
-#  route_table_id = aws_route_table.public_route_table.id
-#}
+
