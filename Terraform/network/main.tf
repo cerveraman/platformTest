@@ -45,8 +45,8 @@ resource "aws_route" "default_route" {
 }
 
 resource "aws_vpc_endpoint" "dynamodb" {
-  vpc_id       = aws_vpc.main_vpc.id
-  service_name = "com.amazonaws.us-west-1.dynamodb"
+  vpc_id = aws_vpc.main_vpc.id
+  service_name = local.service_name
 
   tags = {
     Environment = "test"
