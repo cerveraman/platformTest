@@ -5,18 +5,27 @@ resource "aws_vpc" "main_vpc" {
   tags = {
     Name = "main_vpc"
   }
+  lifecycle {
+    create_before_destroy = true
+  }
 }
 
 resource "aws_subnet" "public_subnet" {
     vpc_id = aws_vpc.main_vpc.id
     cidr_block = cidrsubnet(var.vpc_cidr, 1, 0)
     map_public_ip_on_launch = true
+    tags = {
+      Name = "public_subnet" 
+    }
 }
 
 resource "aws_subnet" "private_subnet" {
     vpc_id = aws_vpc.main_vpc.id
     cidr_block = cidrsubnet(var.vpc_cidr, 1, 1)
     map_public_ip_on_launch = false
+    tags = {
+      Name = "private_subnet" 
+    }
 }
 
 resource "aws_network_interface" "public_interface" {
@@ -40,20 +49,31 @@ resource "aws_internet_gateway" "internet_gateway" {
 }
 resource "aws_route" "default_route" {
   route_table_id = aws_route_table.public_route_table.id
-  destination_cidr_block = aws_subnet.public_subnet.cidr_block
+  destination_cidr_block = "0.0.0.0/0"
   gateway_id = aws_internet_gateway.internet_gateway.id
 }
+
+resource "aws_default_route_table" "private_rt" {
+  default_route_table_id = aws_vpc.main_vpc.default_route_table_id
+  tags = {
+    Name = "mtc_private"
+  }
+}
 #PLUGGIN ERROR, NOT FIXED
-#resource "aws_route_table_association" "public" {
-# subnet_id      = aws_subnet.public_subnet.id
+#resource "aws_route_table_association" "public_association" {
+#  subnet_id      = aws_subnet.public_subnet.id
 #  route_table_id = aws_route_table.public_route_table.id
 #}
 resource "aws_vpc_endpoint" "dynamodb" {
   vpc_id = aws_vpc.main_vpc.id
   service_name = local.service_name
   subnet_ids = [aws_subnet.private_subnet.id]
+  depends_on = [
+    aws_vpc.main_vpc,
+  ]
   tags = {
-    Environment = "test"
+    Environment = "dev"
   }
 }
+
 

@@ -2,7 +2,7 @@
 * The goal of the exercise is to deploy an EC2 instance connected to DynamoDB, isolating database from internet for security reasons, following the diagram described in https://docs.aws.amazon.com/amazondynamodb/latest/developerguide/vpc-endpoints-dynamodb.html
 * Only EC2 instance can connect to database throug an VPC Endpoint
 * Sensible data (keys and secrets) have been stored in terraform.tfvars file, as this is a learning exercise this file has been exceptionally included in git hub repository
-
+* All resources will be deployed in a local docker container running LocalStack
 
 # Implementation:
 * Three terraform modules have been deployed, network, ec2 and dynamodb
@@ -14,8 +14,9 @@
   - aws_network_interface public_interface: elastic interface to connect EC2 instance to public_subnet
   - aws_route_table public_route_table: custom route table to connect the VPC to internet
   - aws_internet_gateway internet_gateway: gateway to connect tbe VPC to internet
-  - aws_route default_route: route to direct all external traffico to thee public subnet throug the gateway
+  - aws_route default_route: route to direct all traffic to the public subnet through the gateway
   - aws_route_table_association public: route table association to link the public route table with the public subnet. This resource throws an error in the terraform aws plugin that has not been solved
+  - aws_default_route_table private_rt: The default route table deployed with the aws_vpc main_vpc resource will be used as default route table in our VPC
   - aws_vpc_endpoint dynamodb: enpoint to connect DynamoDB to the private subnet and the VPC
 
 ## Module ec2
