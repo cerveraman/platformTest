@@ -8,15 +8,15 @@
 * Three terraform modules have been deployed, network, ec2 and dynamodb
 ## Module network
 * The module implements several aws network resources:
-*  - aws_vpc main_vpc: main vpc who connects all resources
-*  - aws_subnet public_subnet: public subnet to connect to EC2 instance
-*  - aws_subnet private_subnet: private subnet to connect to DynamoDB
-*  - aws_network_interface public_interface: elastic interface to connect EC2 instance to public_subnet
-*  - aws_route_table public_route_table: custom route table to connect the VPC to internet
-*  - aws_internet_gateway internet_gateway: gateway to connect tbe VPC to internet
-*  - aws_route default_route: route to direct all external traffico to thee public subnet throug the gateway
-*  - aws_route_table_association public: route table association to link the public route table with the public subnet. This resource throws an error in the terraform aws plugin that has not been solved
-*  - aws_vpc_endpoint dynamodb: enpoint to connect DynamoDB to the private subnet and the VPC
+  - aws_vpc main_vpc: main vpc who connects all resources
+  - aws_subnet public_subnet: public subnet to connect to EC2 instance
+  - aws_subnet private_subnet: private subnet to connect to DynamoDB
+  - aws_network_interface public_interface: elastic interface to connect EC2 instance to public_subnet
+  - aws_route_table public_route_table: custom route table to connect the VPC to internet
+  - aws_internet_gateway internet_gateway: gateway to connect tbe VPC to internet
+  - aws_route default_route: route to direct all external traffico to thee public subnet throug the gateway
+  - aws_route_table_association public: route table association to link the public route table with the public subnet. This resource throws an error in the terraform aws plugin that has not been solved
+  - aws_vpc_endpoint dynamodb: enpoint to connect DynamoDB to the private subnet and the VPC
 
 ## Module ec2
 * The module implements an Amazon AMI instance running in EC2, connected to the VPC through an elastic network interface
