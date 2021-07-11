@@ -76,4 +76,23 @@ resource "aws_vpc_endpoint" "dynamodb" {
   }
 }
 
+resource "aws_security_group" "public_access_sg" {
+  name = "public_security_group"
+  description = "Security group for public access"
+  vpc_id = aws_vpc.main_vpc.id
+  ingress {
+    from_port = 22
+    to_port = 22
+    protocol = "tcp"
+    cidr_blocks = [var.access_ip]
+  }
+  egress {
+    from_port = 0
+    to_port = 0
+    protocol = -1
+    cidr_blocks = ["0.0.0.0/0"]
+  }
+}
+
+
 

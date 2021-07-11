@@ -18,7 +18,7 @@
   - aws_route_table_association public: route table association to link the public route table with the public subnet. This resource throws an error in the terraform aws plugin that has not been solved
   - aws_default_route_table private_rt: The default route table deployed with the aws_vpc main_vpc resource will be used as default route table in our VPC
   - aws_vpc_endpoint dynamodb: enpoint to connect DynamoDB to the private subnet and the VPC
-
+  - aws_security_group public_access_sg: This security group allows to filter inbound and outbound traffic. All outbound traffic is allowed, but only inbound traffic from port 22 ant to port 22 is allowed. As this is a learning exercise, traffic for any IP address is allowed, but this should be limited for production environments.
 ## Module ec2
 * The module implements an Amazon AMI instance running in EC2, connected to the VPC through an elastic network interface
 
