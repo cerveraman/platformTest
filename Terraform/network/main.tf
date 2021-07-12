@@ -43,6 +43,13 @@ module "external_access" {
   private_subnet_id = aws_subnet.private_subnet.id
   access_ip =  var.access_ip
   destination_cidr = var.destination_cidr
+  ingress_from_port = var.ingress_from_port
+  ingress_to_port = var.ingress_to_port
+  ingress_protocol = var.ingress_protocol
+  egress_from_port = var.egress_from_port
+  egress_to_port = var.egress_to_port
+  egress_protocol = var.egress_protocol
+  egress_ip = var.egress_ip
 }
 
 

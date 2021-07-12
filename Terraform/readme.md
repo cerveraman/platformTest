@@ -12,6 +12,8 @@
   - aws_subnet public_subnet: public subnet to connect to EC2 instance
   - aws_subnet private_subnet: private subnet to connect to DynamoDB
   - aws_network_interface public_interface: elastic interface to connect EC2 instance to public_subnet
+  # Sub-module external_access
+  * This submodule implements all the resources needed to access the VPC to and from the internet
   - aws_route_table public_route_table: custom route table to connect the VPC to internet
   - aws_internet_gateway internet_gateway: gateway to connect tbe VPC to internet
   - aws_route default_route: route to direct all traffic to the public subnet through the gateway

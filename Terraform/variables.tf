@@ -14,3 +14,7 @@ variable "aws_region" {
 variable "access_ip"{
   type = string
 }
+
+variable "egress_ip"{
+  type = string
+}
