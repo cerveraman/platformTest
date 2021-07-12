@@ -11,10 +11,10 @@ variable "aws_region" {
   default = "us-west-1"
 }
 
-variable "access_ip"{
+variable "access_ip" {
   type = string
 }
 
-variable "egress_ip"{
+variable "egress_ip" {
   type = string
 }

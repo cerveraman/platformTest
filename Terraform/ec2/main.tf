@@ -3,6 +3,6 @@ resource "aws_instance" "app" {
   instance_type = var.instance_type
   network_interface {
     network_interface_id = var.public_interface_id
-    device_index         = 0
+    device_index         = var.device_index
   }
 }

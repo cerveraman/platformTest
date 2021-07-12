@@ -7,3 +7,6 @@ variable "instance_type" {
 variable "public_interface_id" {
   type = string
 }
+variable "device_index" {
+  type = number
+}

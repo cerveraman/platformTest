@@ -8,6 +8,9 @@ locals {
   instance_type = "t2.micro"
 }
 locals {
+  device_index = 0
+}
+locals {
   destination_cidr = "0.0.0.0/0"
 }
 locals {
