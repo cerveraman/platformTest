@@ -2,6 +2,8 @@ module "network" {
   source   = "./network"
   vpc_cidr = local.cidr
   access_ip = var.access_ip
+  destination_cidr = local.destination_cidr
+  service_name = local.service_name
 }
 module "ec2" {
   source              = "./ec2"

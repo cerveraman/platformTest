@@ -34,64 +34,15 @@ resource "aws_network_interface" "public_interface" {
     Name = "public_network_interface"
   }
 }
-resource "aws_route_table" "public_route_table" {
+module "external_access" {
+  source = "./external_access"
   vpc_id = aws_vpc.main_vpc.id
-
-  tags = {
-    Name = "public_route"
-  }
-}
-resource "aws_internet_gateway" "internet_gateway" {
-  vpc_id = aws_vpc.main_vpc.id
-  tags = {
-    Name = "internet_gateway"
-  }
-}
-resource "aws_route" "default_route" {
-  route_table_id = aws_route_table.public_route_table.id
-  destination_cidr_block = "0.0.0.0/0"
-  gateway_id = aws_internet_gateway.internet_gateway.id
-}
-
-resource "aws_default_route_table" "private_rt" {
   default_route_table_id = aws_vpc.main_vpc.default_route_table_id
-  tags = {
-    Name = "mtc_private"
-  }
-}
-#PLUGGIN ERROR, NOT FIXED
-#resource "aws_route_table_association" "public_association" {
-#  subnet_id      = aws_subnet.public_subnet.id
-#  route_table_id = aws_route_table.public_route_table.id
-#}
-resource "aws_vpc_endpoint" "dynamodb" {
-  vpc_id = aws_vpc.main_vpc.id
-  service_name = local.service_name
-  subnet_ids = [aws_subnet.private_subnet.id]
-  depends_on = [
-    aws_vpc.main_vpc,
-  ]
-  tags = {
-    Environment = "dev"
-  }
-}
-
-resource "aws_security_group" "public_access_sg" {
-  name = "public_security_group"
-  description = "Security group for public access"
-  vpc_id = aws_vpc.main_vpc.id
-  ingress {
-    from_port = 22
-    to_port = 22
-    protocol = "tcp"
-    cidr_blocks = [var.access_ip]
-  }
-  egress {
-    from_port = 0
-    to_port = 0
-    protocol = -1
-    cidr_blocks = ["0.0.0.0/0"]
-  }
+  subnet_id      = aws_subnet.public_subnet.id
+  service_name = var.service_name
+  private_subnet_id = aws_subnet.private_subnet.id
+  access_ip =  var.access_ip
+  destination_cidr = var.destination_cidr
 }
 
 

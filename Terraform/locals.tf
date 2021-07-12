@@ -7,3 +7,9 @@ locals {
 locals {
   instance_type = "t2.micro"
 }
+locals {
+  destination_cidr = "0.0.0.0/0"
+}
+locals {
+  service_name = "com.amazonaws.us-west-1.dynamodb"
+}
